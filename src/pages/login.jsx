@@ -7,10 +7,10 @@ const LoginPage = () => {
     <AuthLayout title="Login">
       <FormLogin />
       <p className="mt-3 text-sm text-center">
-        Don't have an account?{" "}
+        Don't have an account?
         <Link
           to="/register"
-          className="text-blue-600 font-bold hover:underline "
+          className="text-blue-600 font-bold ml-1.5 hover:underline "
         >
           Register
         </Link>

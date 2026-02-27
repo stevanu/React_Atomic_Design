@@ -7,8 +7,11 @@ const RegisterPage = () => {
     <AuthLayout title="Register">
       <FormRegister />
       <p className="mt-3 text-sm text-center">
-        have an account?{" "}
-        <Link to="/login" className="text-blue-600 font-bold hover:underline ">
+        have an account?
+        <Link
+          to="/login"
+          className="text-blue-600 font-bold ml-1.5 hover:underline "
+        >
           Login
         </Link>
       </p>
