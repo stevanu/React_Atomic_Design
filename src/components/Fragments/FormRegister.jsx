@@ -32,7 +32,7 @@ const FormRegister = () => {
         name="Confirm Password"
         required
       />
-      <Button className="bg-blue-600" type="submit">
+      <Button classname="bg-blue-600 w-full" type="submit">
         Register
       </Button>
     </form>
