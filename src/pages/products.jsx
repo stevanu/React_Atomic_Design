@@ -2,7 +2,7 @@ import CardProduct from "../components/Fragments/CardProduct";
 
 const ProductsPage = () => {
   return (
-    <div className="flex justify-center py-5">
+    <div className="flex justify-center py-5 gap-5">
       <div>
         <CardProduct>
           <CardProduct.Header image="/images/laptop-1.jpg" />
