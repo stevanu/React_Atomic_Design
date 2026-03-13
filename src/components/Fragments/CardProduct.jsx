@@ -12,7 +12,11 @@ const Header = (props) => {
   const { image } = props;
   return (
     <a href="#">
-      <img src={image} alt="products" className="p-6 rounded-t-lg" />
+      <img
+        src={image}
+        alt="products"
+        className="p-6 rounded-t-lg h-80 mx-auto object-contain"
+      />
     </a>
   );
 };
@@ -20,7 +24,7 @@ const Header = (props) => {
 const Body = (props) => {
   const { children, name } = props;
   return (
-    <div className="px-5 pb-5 h-full">
+    <div className="px-3 pb-3 h-full">
       <a href="#">
         <h5 className="text-xl font-semibold tracking-tight text-white">
           {name}

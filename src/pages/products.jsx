@@ -1,6 +1,7 @@
 import { Fragment } from "react";
 import CardProduct from "../components/Fragments/CardProduct";
 import Button from "../components/Elements/Button/Index";
+import Counter from "../components/Fragments/Counter";
 
 const products = [
   {
@@ -9,26 +10,23 @@ const products = [
     price: "Rp 14.000.000",
     image: "/images/laptop-1.jpg",
     description: `lorem200 Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
-      Sapiente unde deleniti exercitationem! Lorem ipsum dolor sit amet, 
-      consectetur adipisicing elit. Sapiente unde deleniti exercitationem!`,
+      Sapiente unde deleniti exercitationem! Lorem ipsum dolor!`,
   },
   {
     id: 2,
     name: "Laptop baru",
-    price: "Rp 14.000.000",
+    price: "Rp 9.000.000",
     image: "/images/laptop-1.jpg",
     description: `lorem200 Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
-      Sapiente unde deleniti exercitationem! Lorem ipsum dolor sit amet, 
-      consectetur adipisicing elit. Sapiente unde deleniti exercitationem!`,
+      Sapiente unde deleniti exercitationem! Lorem ipsum dolor sit `,
   },
   {
     id: 3,
     name: "Laptop baru",
-    price: "Rp 14.000.000",
+    price: "Rp 12.000.000",
     image: "/images/laptop-1.jpg",
     description: `lorem200 Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
-      Sapiente unde deleniti exercitationem! Lorem ipsum dolor sit amet, 
-      consectetur adipisicing elit. Sapiente unde deleniti exercitationem!`,
+      Sapiente unde deleniti exercitationem! Lorem ipsum!`,
   },
 ];
 
@@ -58,6 +56,9 @@ const ProductsPage = () => {
             <CardProduct.Footer price={product.price} />
           </CardProduct>
         ))}
+      </div>
+      <div className="flex justify-center">
+        <Counter></Counter>
       </div>
     </Fragment>
   );
