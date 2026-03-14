@@ -9,7 +9,7 @@ const Button = (props) => {
     <button
       className={`h-10  font-semibold rounded-md text-white ${classname} cursor-pointer mt-4`}
       type={type}
-      onClick={() => onClick()}
+      onClick={onClick}
     >
       {children}
     </button>
