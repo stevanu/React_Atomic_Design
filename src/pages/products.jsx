@@ -5,66 +5,68 @@ import Button from "../components/Elements/Button/Index";
 const products = [
   {
     id: 1,
-    name: "Laptop baru",
-    price: 1400000,
+    name: "Laptop MSI",
+    price: 14000000,
     image: "/images/laptop-2.jpg",
-    description: `Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente unde deleniti exercitationem!`,
+    description: `lorem200 Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
+      Sapiente unde deleniti exercitationem! Lorem ipsum dolor!`,
   },
   {
     id: 2,
-    name: "Laptop baru",
-    price: 900000,
+    name: "Laptop ROG",
+    price: 9000000,
     image: "/images/laptop-2.jpg",
-    description: `Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente unde deleniti exercitationem!`,
+    description: `lorem200 Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
+      Sapiente unde deleniti exercitationem! Lorem ipsum dolor sit `,
   },
   {
     id: 3,
-    name: "Laptop baru",
-    price: 1200000,
+    name: "Laptop MAC",
+    price: 12000000,
     image: "/images/laptop-2.jpg",
-    description: `Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente unde deleniti exercitationem!`,
+    description: `lorem200 Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
+      Sapiente unde deleniti exercitationem! Lorem ipsum!`,
   },
 ];
 
 const email = localStorage.getItem("email");
 
 const ProductsPage = () => {
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState([
+    {
+      id: 1,
+      qty: 1,
+    },
+  ]);
 
-  const handleLogout = () => {
+  const handleLougout = () => {
     localStorage.removeItem("email");
     localStorage.removeItem("password");
     window.location.href = "/login";
   };
 
-  const handleAddToCart = (id) => {
-    // cek apakah sudah ada di cart
-    const existing = cart.find((item) => item.id === id);
-    if (existing) {
+  const HandleAddToCart = (id) => {
+    if (cart.find((item) => item.id === id)) {
       setCart(
         cart.map((item) =>
           item.id === id ? { ...item, qty: item.qty + 1 } : item,
         ),
       );
     } else {
-      setCart([...cart, { id, qty: 1 }]);
+      setCart([...cart, { id: id, qty: 1 }]);
     }
   };
 
   return (
     <Fragment>
-      {/* Header */}
       <div className="flex justify-end h-15 bg-blue-600 text-white items-center px-10">
         {email}
-        <Button classname="bg-red-600 ml-5 w-20 mb-3.5" onClick={handleLogout}>
+        <Button classname="bg-red-600 ml-5 w-20 mb-3.5" onClick={handleLougout}>
           Logout
         </Button>
       </div>
-
-      {/* Main content */}
-      <div className="flex justify-center py-5 gap-5">
-        {/* Product Grid */}
-        <div className="flex flex-wrap w-3/4 gap-4 justify-center">
+      <div className="flex justify-center py-5">
+        <div className="flex flex-wrap w-3/4">
           {products.map((product) => (
             <CardProduct key={product.id}>
               <CardProduct.Header image={product.image} />
@@ -74,29 +76,54 @@ const ProductsPage = () => {
               <CardProduct.Footer
                 price={product.price}
                 id={product.id}
-                handleAddToCart={handleAddToCart}
+                handleAddToCart={HandleAddToCart}
               />
             </CardProduct>
           ))}
         </div>
-
-        {/* Cart Sidebar */}
-        <div className="w-1/4 bg-gray-100 p-4 rounded-md shadow">
-          <h1 className="text-2xl font-bold text-blue-600 mb-3">Cart</h1>
-          <ul>
-            {cart.length === 0 && (
-              <li className="text-gray-500">Cart kosong</li>
-            )}
+        <div className="w-2/6">
+          <h1 className="text-2xl font-bold text-blue-600 ml-5 mb-3">Cart</h1>
+          <table className="text-left table-auto border-separate border-spacing-x-6">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+              </tr>
+            </thead>
             {cart.map((item) => {
-              const product = products.find((p) => p.id === item.id);
+              const product = products.find(
+                (product) => product.id === item.id,
+              );
               return (
-                <li key={item.id} className="flex justify-between mb-2">
-                  <span>{product.name}</span>
-                  <span>x{item.qty}</span>
-                </li>
+                <tr key={item.id}>
+                  <td>{product.name}</td>
+                  <td>
+                    {product.price.toLocaleString("id-ID", {
+                      style: "currency",
+                      currency: "IDR",
+                      minimumFractionDigits: 0,
+                      maximumFractionDigits: 0,
+                    })}
+                  </td>
+                  <td>{item.qty}</td>
+                  <td>
+                    Rp{" "}
+                    {(product.price * item.qty).toLocaleString(
+                      ("id-ID",
+                      {
+                        style: "currency",
+                        currency: "IDR",
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0,
+                      }),
+                    )}
+                  </td>
+                </tr>
               );
             })}
-          </ul>
+          </table>
         </div>
       </div>
     </Fragment>
