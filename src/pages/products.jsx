@@ -1,19 +1,17 @@
-import { Fragment, useState } from "react";
-// Fragment digunakan supaya bisa return beberapa element tanpa div tambahan
-// useState digunakan untuk membuat state (data yang bisa berubah)
-
+import { Fragment, useState, useEffect } from "react";
 import CardProduct from "../components/Fragments/CardProduct";
 import Button from "../components/Elements/Button/Index";
+import Counter from "../components/Fragments/counter";
 
 // Data produk (simulasi database produk)
 const products = [
   {
-    id: 1, // id unik produk
-    name: "Laptop MSI", // nama produk
-    price: 14000000, // harga produk
-    image: "/images/laptop-2.jpg", // gambar produk
+    id: 1,
+    name: "Laptop MSI",
+    price: 14000000,
+    image: "/images/laptop-2.jpg",
     description: `lorem200 Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
-      Sapiente unde deleniti exercitationem! Lorem ipsum dolor!`, // deskripsi produk
+      Sapiente unde deleniti exercitationem! Lorem ipsum dolor!`,
   },
   {
     id: 2,
@@ -38,13 +36,23 @@ const email = localStorage.getItem("email");
 
 const ProductsPage = () => {
   // state cart untuk menyimpan item yang dimasukkan ke keranjang
-  const [cart, setCart] = useState([
-    {
-      id: 1, // id produk
-      qty: 1, // jumlah produk
-    },
-  ]);
+  const [cart, setCart] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
 
+  useEffect(() => {
+    setCart(JSON.parse(localStorage.getItem("cart")) || []);
+  }, []);
+
+  useEffect(() => {
+    if (cart.length > 0) {
+      const sum = cart.reduce((acc, item) => {
+        const product = products.find((p) => p.id === item.id);
+        return acc + product.price * item.qty;
+      }, 0);
+      setTotalPrice(sum);
+      localStorage.setItem("cart", JSON.stringify(cart));
+    }
+  }, [cart]);
   // fungsi logout
   const handleLougout = () => {
     localStorage.removeItem("email"); // hapus email dari localStorage
@@ -118,50 +126,61 @@ const ProductsPage = () => {
               </tr>
             </thead>
 
-            {/* menampilkan isi cart */}
-            {cart.map((item) => {
-              // mencari data produk berdasarkan id yang ada di cart
-              const product = products.find(
-                (product) => product.id === item.id,
-              );
+            <tbody>
+              {cart.map((item) => {
+                const product = products.find(
+                  (product) => product.id === item.id,
+                );
 
-              return (
-                <tr key={item.id}>
-                  {/* nama produk */}
-                  <td>{product.name}</td>
+                return (
+                  <tr key={item.id}>
+                    <td>{product.name}</td>
 
-                  {/* harga produk */}
-                  <td>
-                    {product.price.toLocaleString("id-ID", {
+                    <td>
+                      {product.price.toLocaleString("id-ID", {
+                        style: "currency",
+                        currency: "IDR",
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0,
+                      })}
+                    </td>
+
+                    <td>{item.qty}</td>
+
+                    <td>
+                      {(product.price * item.qty).toLocaleString("id-ID", {
+                        style: "currency",
+                        currency: "IDR",
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0,
+                      })}
+                    </td>
+                  </tr>
+                );
+              })}
+              <tr>
+                <td colSpan={3}>
+                  <b>Total Price</b>
+                </td>
+                <td>
+                  <b>
+                    {" "}
+                    {totalPrice.toLocaleString("id-ID", {
                       style: "currency",
                       currency: "IDR",
                       minimumFractionDigits: 0,
                       maximumFractionDigits: 0,
                     })}
-                  </td>
-
-                  {/* jumlah produk */}
-                  <td>{item.qty}</td>
-
-                  {/* total harga (price * qty) */}
-                  <td>
-                    Rp{" "}
-                    {(product.price * item.qty).toLocaleString(
-                      ("id-ID",
-                      {
-                        style: "currency",
-                        currency: "IDR",
-                        minimumFractionDigits: 0,
-                        maximumFractionDigits: 0,
-                      }),
-                    )}
-                  </td>
-                </tr>
-              );
-            })}
+                  </b>
+                </td>
+              </tr>
+            </tbody>
           </table>
         </div>
       </div>
+      {/* <div className="mt-5 flex justify-center mb-5">
+        <Counter></Counter>
+      </div> */}
     </Fragment>
   );
 };

@@ -78,12 +78,6 @@ const Footer = (props) => {
   );
 };
 
-// Menggabungkan komponen Header, Body, Footer
-// supaya bisa dipanggil seperti:
-// <CardProduct.Header />
-// <CardProduct.Body />
-// <CardProduct.Footer />
-
 CardProduct.Header = Header;
 CardProduct.Body = Body;
 CardProduct.Footer = Footer;
