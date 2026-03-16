@@ -1,4 +1,4 @@
-import { Fragment, useState, useEffect } from "react";
+import { Fragment, useState, useEffect, useRef } from "react";
 import CardProduct from "../components/Fragments/CardProduct";
 import Button from "../components/Elements/Button/Index";
 import Counter from "../components/Fragments/counter";
@@ -76,6 +76,24 @@ const ProductsPage = () => {
     }
   };
 
+  // UseReff
+
+  const cartRef = useRef(JSON.parse(localStorage.getItem("cart")) || []);
+
+  const HandleAddToCartRef = (id) => {
+    cartRef.current = [...cartRef.current, { id: id, qty: 1 }];
+    localStorage.setItem("cart", JSON.stringify(cartRef.current));
+  };
+
+  const totalPriceRef = useRef(null);
+  useEffect(() => {
+    if (cart.length > 0) {
+      totalPriceRef.current.style.display = "table-row";
+    } else {
+      totalPriceRef.current.style.display = "none";
+    }
+  }, [cart]);
+
   return (
     <Fragment>
       {/* Header navbar */}
@@ -85,7 +103,6 @@ const ProductsPage = () => {
           Logout
         </Button>
       </div>
-
       {/* Container utama */}
       <div className="flex justify-center py-5">
         {/* Section daftar produk */}
@@ -145,7 +162,7 @@ const ProductsPage = () => {
                       })}
                     </td>
 
-                    <td>{item.qty}</td>
+                    <td className="text-center">{item.qty}</td>
 
                     <td>
                       {(product.price * item.qty).toLocaleString("id-ID", {
@@ -158,7 +175,7 @@ const ProductsPage = () => {
                   </tr>
                 );
               })}
-              <tr>
+              <tr ref={totalPriceRef}>
                 <td colSpan={3}>
                   <b>Total Price</b>
                 </td>

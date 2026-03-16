@@ -1,8 +1,6 @@
 import Button from "../Elements/Button/Index";
-// Mengimpor komponen Button yang akan digunakan untuk tombol login
-
 import InputForm from "../Elements/Input/Index";
-// Mengimpor komponen InputForm yang digunakan untuk membuat input email dan password
+import { useEffect, useRef } from "react";
 
 // Komponen FormLogin
 const FormLogin = () => {
@@ -21,25 +19,31 @@ const FormLogin = () => {
     window.location.href = "/products";
   };
 
+  const emailRef = useRef(null);
+  useEffect(() => {
+    emailRef.current.focus();
+  }, []);
+
   return (
     // Form login dengan event onSubmit
     <form onSubmit={handleLogin}>
       {/* Input untuk email */}
       <InputForm
-        label="Email" // label yang ditampilkan
-        type="email" // tipe input email
-        placeholder="Example@gmail.com" // teks placeholder
-        name="email" // name digunakan untuk mengambil value dari form
-        required // input wajib diisi
+        label="Email"
+        type="email"
+        placeholder="Example@gmail.com"
+        name="email"
+        required
+        ref={emailRef}
       />
 
       {/* Input untuk password */}
       <InputForm
-        label="password" // label password
-        type="password" // tipe input password agar teks disembunyikan
-        placeholder="Password" // placeholder
-        name="password" // name digunakan untuk mengambil value dari form
-        required // wajib diisi
+        label="password"
+        type="password"
+        placeholder="Password"
+        name="password"
+        required
       />
 
       {/* Tombol login */}
@@ -51,4 +55,3 @@ const FormLogin = () => {
 };
 
 export default FormLogin;
-// Mengekspor komponen agar bisa digunakan di halaman lain
