@@ -14,10 +14,6 @@ const ProductsPage = () => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    setCart(JSON.parse(localStorage.getItem("cart")) || []);
-  }, []);
-
-  useEffect(() => {
     getProducts((data) => {
       setProducts(data);
     });
@@ -29,6 +25,7 @@ const ProductsPage = () => {
         const product = products.find((p) => p.id === item.id);
         return acc + product.price * item.qty;
       }, 0);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setTotalPrice(sum);
       localStorage.setItem("cart", JSON.stringify(cart));
     }
