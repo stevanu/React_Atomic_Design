@@ -8,7 +8,7 @@ const CardProduct = (props) => {
 
   return (
     // Container utama card
-    <div className="w-full max-w-xs bg-gray-800 border-gray-700 rounded-lg shadow mx-2.5 flex flex-col my-2 justify-between">
+    <div className="w-70 max-w-xs bg-gray-800 border-gray-700 rounded-lg shadow mx-2.5 flex flex-col my-2 justify-between">
       {children}
       {/* children akan berisi Header, Body, dan Footer */}
     </div>
@@ -23,7 +23,11 @@ const Header = (props) => {
   return (
     <a href="#">
       {/* menampilkan gambar produk */}
-      <img src={image} alt="products" className="p-4 rounded-t-lg " />
+      <img
+        src={image}
+        alt="products"
+        className="p-4 rounded-t-lg h-70 w-full object-cover"
+      />
     </a>
   );
 };
@@ -39,11 +43,11 @@ const Body = (props) => {
       <a href="#">
         {/* menampilkan nama produk */}
         <h5 className="text-xl font-semibold tracking-tight text-white">
-          {name}
+          {name.substring(0, 20)} ...
         </h5>
 
         {/* menampilkan deskripsi produk */}
-        <p className="text-sm text-white ">{children}</p>
+        <p className="text-sm text-white mt-5">{children.substring(0, 100)}</p>
       </a>
     </div>
   );
@@ -59,11 +63,9 @@ const Footer = (props) => {
       {/* menampilkan harga produk */}
       <span className="text-xl font-bold text-white mt-3">
         {/* format harga ke Rupiah */}
-        {price.toLocaleString("id-ID", {
+        {price.toLocaleString("en-US", {
           style: "currency",
-          currency: "IDR",
-          minimumFractionDigits: 0,
-          maximumFractionDigits: 0,
+          currency: "USD",
         })}
       </span>
 
