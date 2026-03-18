@@ -162,9 +162,6 @@ const ProductsPage = () => {
           </table>
         </div>
       </div>
-      {/* <div className="mt-5 flex justify-center mb-5">
-        <Counter></Counter>
-      </div> */}
     </Fragment>
   );
 };

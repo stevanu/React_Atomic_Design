@@ -1,5 +1,4 @@
 import Button from "../Elements/Button/Index";
-// Mengimpor komponen Button yang akan dipakai pada bagian footer card
 
 // Komponen utama CardProduct
 const CardProduct = (props) => {
