@@ -1,40 +1,46 @@
+import { login } from "../../services/auth.service";
 import Button from "../Elements/Button/Index";
 import InputForm from "../Elements/Input/Index";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // Komponen FormLogin
 const FormLogin = () => {
-  // Fungsi yang dijalankan saat form disubmit
+  const [loginFailed, setLoginFailed] = useState("");
   const handleLogin = (event) => {
     event.preventDefault();
-    // Mencegah browser melakukan reload halaman ketika form disubmit
-
-    // Menyimpan email yang diinput user ke localStorage
-    localStorage.setItem("email", event.target.email.value);
-
-    // Menyimpan password yang diinput user ke localStorage
-    localStorage.setItem("password", event.target.password.value);
-
-    // Mengarahkan user ke halaman products setelah login
-    window.location.href = "/products";
+    // localStorage.setItem("email", event.target.email.value);
+    // localStorage.setItem("password", event.target.password.value);
+    // window.location.href = "/products";
+    const data = {
+      username: event.target.username.value,
+      password: event.target.password.value,
+    };
+    login(data, (status, res) => {
+      if (status) {
+        localStorage.setItem("token", res);
+        window.location.href = "/products";
+      } else {
+        setLoginFailed(res.response.data);
+        console.log(res.response.data);
+      }
+    });
   };
 
-  const emailRef = useRef(null);
+  const userNameRef = useRef(null);
   useEffect(() => {
-    emailRef.current.focus();
+    userNameRef.current.focus();
   }, []);
 
   return (
     // Form login dengan event onSubmit
     <form onSubmit={handleLogin}>
-      {/* Input untuk email */}
       <InputForm
-        label="Email"
-        type="email"
-        placeholder="Example@gmail.com"
-        name="email"
+        label="username"
+        type="text"
+        placeholder="John Doe"
+        name="username"
         required
-        ref={emailRef}
+        ref={userNameRef}
       />
 
       {/* Input untuk password */}
@@ -45,6 +51,7 @@ const FormLogin = () => {
         name="password"
         required
       />
+      {loginFailed && <p className="text-red-500 text-center">{loginFailed}</p>}
 
       {/* Tombol login */}
       <Button classname="bg-blue-600 w-full" type="submit">

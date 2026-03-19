@@ -3,9 +3,10 @@ import CardProduct from "../components/Fragments/CardProduct";
 import Button from "../components/Elements/Button/Index";
 import Counter from "../components/Fragments/counter";
 import { getProducts } from "../services/products.service";
+import { getUsername } from "../services/auth.service";
 
 // mengambil email user dari localStorage
-const email = localStorage.getItem("email");
+const username = localStorage.getItem("token");
 
 const ProductsPage = () => {
   // state cart untuk menyimpan item yang dimasukkan ke keranjang
@@ -17,6 +18,10 @@ const ProductsPage = () => {
     getProducts((data) => {
       setProducts(data);
     });
+  }, []);
+
+  useEffect(() => {
+    getUsername(token);
   }, []);
 
   useEffect(() => {
@@ -75,7 +80,7 @@ const ProductsPage = () => {
     <Fragment>
       {/* Header navbar */}
       <div className="flex justify-end h-15 bg-blue-600 text-white items-center px-10">
-        {email} {/* menampilkan email user yang login */}
+        {/* {email} */}
         <Button classname="bg-red-600 ml-5 w-20 mb-3.5" onClick={handleLougout}>
           Logout
         </Button>
