@@ -6,33 +6,33 @@ import { useEffect, useRef, useState } from "react";
 // Komponen FormLogin
 const FormLogin = () => {
   const [loginFailed, setLoginFailed] = useState("");
-  const handleLogin = (event) => {
-    event.preventDefault();
-    // localStorage.setItem("email", event.target.email.value);
-    // localStorage.setItem("password", event.target.password.value);
-    // window.location.href = "/products";
-    const data = {
-      username: event.target.username.value,
-      password: event.target.password.value,
-    };
-    login(data, (status, res) => {
-      if (status) {
-        localStorage.setItem("token", res);
-        window.location.href = "/products";
-      } else {
-        setLoginFailed(res.response.data);
-        console.log(res.response.data);
-      }
-    });
-  };
-
   const userNameRef = useRef(null);
+
   useEffect(() => {
     userNameRef.current.focus();
   }, []);
 
+  const handleLogin = (event) => {
+    event.preventDefault();
+    const data = {
+      username: event.target.username.value,
+      password: event.target.password.value,
+    };
+
+    login(data, (status, res) => {
+      if (status) {
+        // Simpan token dan username langsung
+        localStorage.setItem("token", res);
+        localStorage.setItem("username", data.username);
+        window.location.href = "/products";
+      } else {
+        setLoginFailed("Login gagal! Periksa username & password.");
+        console.log(res);
+      }
+    });
+  };
+
   return (
-    // Form login dengan event onSubmit
     <form onSubmit={handleLogin}>
       <InputForm
         label="username"
@@ -43,7 +43,6 @@ const FormLogin = () => {
         ref={userNameRef}
       />
 
-      {/* Input untuk password */}
       <InputForm
         label="password"
         type="password"
@@ -51,9 +50,9 @@ const FormLogin = () => {
         name="password"
         required
       />
+
       {loginFailed && <p className="text-red-500 text-center">{loginFailed}</p>}
 
-      {/* Tombol login */}
       <Button classname="bg-blue-600 w-full" type="submit">
         Login
       </Button>

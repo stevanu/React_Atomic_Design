@@ -6,22 +6,27 @@ import { getProducts } from "../services/products.service";
 import { getUsername } from "../services/auth.service";
 
 // mengambil email user dari localStorage
-const username = localStorage.getItem("token");
+const token = localStorage.getItem("token");
 
 const ProductsPage = () => {
-  // state cart untuk menyimpan item yang dimasukkan ke keranjang
   const [cart, setCart] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    getProducts((data) => {
-      setProducts(data);
-    });
+    setTimeout(() => {
+      setCart(JSON.parse(localStorage.getItem("cart")) || []);
+    }, 0);
   }, []);
 
   useEffect(() => {
     getUsername(token);
+  });
+
+  useEffect(() => {
+    getProducts((data) => {
+      setProducts(data);
+    });
   }, []);
 
   useEffect(() => {
@@ -37,13 +42,13 @@ const ProductsPage = () => {
   }, [cart, products]);
   // fungsi logout
   const handleLougout = () => {
-    localStorage.removeItem("email"); // hapus email dari localStorage
-    localStorage.removeItem("password"); // hapus password dari localStorage
-    window.location.href = "/login"; // redirect ke halaman login
+    localStorage.removeItem("email");
+    localStorage.removeItem("password");
+    window.location.href = "/login";
   };
 
   // fungsi untuk menambahkan produk ke cart
-  const HandleAddToCart = (id) => {
+  const handleAddToCart = (id) => {
     // cek apakah produk sudah ada di cart
     if (cart.find((item) => item.id === id)) {
       // jika sudah ada maka tambah quantity
@@ -80,14 +85,13 @@ const ProductsPage = () => {
     <Fragment>
       {/* Header navbar */}
       <div className="flex justify-end h-15 bg-blue-600 text-white items-center px-10">
-        {/* {email} */}
+        {token && <p className="mr-5">{getUsername(token)}</p>}
         <Button classname="bg-red-600 ml-5 w-20 mb-3.5" onClick={handleLougout}>
           Logout
         </Button>
       </div>
       {/* Container utama */}
       <div className="flex justify-center py-5">
-        {/* Section daftar produk */}
         <div className="flex flex-wrap w-3/4">
           {/* looping data produk */}
           {products.length > 0 &&
@@ -100,7 +104,7 @@ const ProductsPage = () => {
                 <CardProduct.Footer
                   price={product.price}
                   id={product.id}
-                  handleAddToCart={HandleAddToCart}
+                  handleAddToCart={handleAddToCart}
                 />
               </CardProduct>
             ))}
@@ -156,7 +160,7 @@ const ProductsPage = () => {
                 </td>
                 <td>
                   <b>
-                    {totalPrice.toLocaleString("ed-US", {
+                    {totalPrice.toLocaleString("en-US", {
                       style: "currency",
                       currency: "USD",
                     })}
