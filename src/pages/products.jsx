@@ -20,8 +20,10 @@ const ProductsPage = () => {
   }, []);
 
   useEffect(() => {
-    getUsername(token);
-  });
+    if (token) {
+      getUsername(token);
+    }
+  }, []);
 
   useEffect(() => {
     getProducts((data) => {
