@@ -3,26 +3,18 @@ import CardProduct from "../components/Fragments/CardProduct";
 import Button from "../components/Elements/Button/Index";
 import Counter from "../components/Fragments/counter";
 import { getProducts } from "../services/products.service";
-import { getUsername } from "../services/auth.service";
-
-// mengambil email user dari localStorage
-const token = localStorage.getItem("token");
+import { useLogin } from "../hooks/useLogin";
 
 const ProductsPage = () => {
   const [cart, setCart] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [products, setProducts] = useState([]);
+  const username = useLogin();
 
   useEffect(() => {
     setTimeout(() => {
       setCart(JSON.parse(localStorage.getItem("cart")) || []);
     }, 0);
-  }, []);
-
-  useEffect(() => {
-    if (token) {
-      getUsername(token);
-    }
   }, []);
 
   useEffect(() => {
@@ -43,9 +35,11 @@ const ProductsPage = () => {
     }
   }, [cart, products]);
   // fungsi logout
-  const handleLougout = () => {
+  const handleLogout = () => {
     localStorage.removeItem("email");
     localStorage.removeItem("password");
+    localStorage.removeItem("token");
+    localStorage.removeItem("username");
     window.location.href = "/login";
   };
 
@@ -87,8 +81,8 @@ const ProductsPage = () => {
     <Fragment>
       {/* Header navbar */}
       <div className="flex justify-end h-15 bg-blue-600 text-white items-center px-10">
-        {token && <p className="mr-5">{getUsername(token)}</p>}
-        <Button classname="bg-red-600 ml-5 w-20 mb-3.5" onClick={handleLougout}>
+        {username && <p className="mr-5">{username}</p>}
+        <Button classname="bg-red-600 ml-5 w-20 mb-3.5" onClick={handleLogout}>
           Logout
         </Button>
       </div>

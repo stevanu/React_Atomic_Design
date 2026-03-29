@@ -6,36 +6,39 @@ import LoginPage from "./pages/login.jsx";
 import RegisterPage from "./pages/register.jsx";
 import ErrorPage from "./pages/404.jsx";
 import ProductsPage from "./pages/products.jsx";
+import ProfilePage from "./pages/profile.jsx";
 
 // Membuat konfigurasi router
 const router = createBrowserRouter([
   {
     path: "/", // root path default aplikasi
 
-    errorElement: <ErrorPage />,
     // jika route tidak ditemukan atau terjadi error maka halaman ini yang ditampilkan
+    errorElement: <ErrorPage />,
 
     children: [
       {
         path: "/login", // route halaman login
-        element: <LoginPage />, // komponen yang ditampilkan saat mengakses /login
+        element: <LoginPage />,
       },
       {
         path: "/register", // route halaman register
-        element: <RegisterPage />, // komponen halaman register
+        element: <RegisterPage />,
       },
       {
         path: "/products", // route halaman produk
-        element: <ProductsPage />, // komponen halaman produk
+        element: <ProductsPage />,
+      },
+      {
+        path: "/profile",
+        element: <ProfilePage />,
       },
     ],
   },
 ]);
 
-// Merender aplikasi React ke dalam element HTML dengan id="root"
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    {/* RouterProvider menjalankan sistem routing yang sudah dibuat */}
     <RouterProvider router={router} />
   </StrictMode>,
 );
